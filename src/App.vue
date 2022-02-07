@@ -4,18 +4,36 @@ import TheWelcome from './components/TheWelcome.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div>
+    <h1>Products</h1>
+    <div v-for="product of products" :key="product.name">
+      <h6>{{product.name}}</h6>
+      <span>{{product.price}}</span>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
+
+<script>
+import {defineComponent, ref} from 'vue'
+
+export default defineComponent({
+
+  data() {return {
+    products: [{name: 'test',  price: 12}]
+  }},
+
+  mounted() {
+    this.fetchProducts()
+  },
+
+  methods: {
+    fetchProducts() {
+
+    }
+  }
+
+})
+</script>
 
 <style>
 @import './assets/base.css';
