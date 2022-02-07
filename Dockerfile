@@ -8,6 +8,6 @@ RUN npm i
 
 CMD [ "npm" "run" "dev" ]
 
-EXPOSE 8080
+EXPOSE 3030
 
 VOLUME /app
