@@ -6,9 +6,13 @@ import TheWelcome from './components/TheWelcome.vue'
 <template>
   <div>
     <h1>Products</h1>
-    <div v-for="product of products" :key="product.name">
-      <h6>{{product.name}}</h6>
-      <span>{{product.price}}</span>
+    <div class="item" v-for="product of products" :key="product.name">
+      <h3>{{product.name}}</h3>
+      <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+        <span>{{product.price}} €</span>
+        <br/>
+        <button class="buyButton">buy</button>
+      </div>
     </div>
   </div>
 </template>
@@ -16,10 +20,12 @@ import TheWelcome from './components/TheWelcome.vue'
 <script>
 import {defineComponent, ref} from 'vue'
 
+import axios from 'axios'
+
 export default defineComponent({
 
   data() {return {
-    products: [{name: 'test',  price: 12}]
+    products: []
   }},
 
   mounted() {
@@ -27,8 +33,13 @@ export default defineComponent({
   },
 
   methods: {
-    fetchProducts() {
-
+    async fetchProducts() {
+      try {
+        const resp = await axios.get('http://localhost:3000');
+        this.products = resp.data
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 
@@ -42,8 +53,10 @@ export default defineComponent({
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-
   font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 header {
@@ -62,38 +75,22 @@ a,
   transition: 0.4s;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.item {
+  width: 500px;
+  background: #333333;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  align-items: center;
+  margin: 10px
 }
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.buyButton {
+  background: lime;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
 }
 </style>
